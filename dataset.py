@@ -45,6 +45,7 @@ class DataSet:
         self.datas[0]["duration_previous"] = 0
         self.datas[0]['speed'] = 0 
         self.datas[0]['move'] = False
+        self.datas[0]['den'] = 0
             
     def __prepare_data(self):
         for data in self.datas:
@@ -88,6 +89,8 @@ class DataSet:
                 self.positive_denivele += denivele
             else:
                 self.negative_denivele -= denivele
+                
+            self.datas[i]["den"] = denivele
             d = distance(self.datas[i]["coordo"], self.datas[i - 1]["coordo"])
             self.distance_total += d
             self.datas[i]["distance_total"] = self.distance_total

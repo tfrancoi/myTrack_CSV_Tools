@@ -8,7 +8,7 @@ import sys
 
 now = datetime.now()
 FILENAME = 'Roumanie J4.csv'
-LISSAGE = False
+LISSAGE = True
 
 def lissage(datas, i, key, r=2):
     total = 0
@@ -39,9 +39,9 @@ print "dataset len", track_data_set.len()
 
 if LISSAGE:
     for i, data in enumerate(track_data_set.datas): 
-        data["Altitude Lissage"] = lissage(track_data_set.datas, i, "Altitude (m)", 20)
-        data['Latitude'] = lissage(track_data_set.datas, i, 'Latitude', 2)
-        data['Longitude'] = lissage(track_data_set.datas, i, 'Longitude', 2)
+        data["Altitude (m)"] = lissage(track_data_set.datas, i, "Altitude (m)", 3)
+        #data['Latitude'] = lissage(track_data_set.datas, i, 'Latitude', 2)
+        #data['Longitude'] = lissage(track_data_set.datas, i, 'Longitude', 2)
 
 track_data_set.pre_process()
 #pre_lissage
@@ -53,7 +53,7 @@ track_data_set.process()
 for i, data in enumerate(track_data_set.datas): 
     speed = data['speed']
     data['speed'] = lissage(track_data_set.datas, i, 'speed', 40)
-    print "%s - %s", speed, data['speed']
+    #print "%s - %s", speed, data['speed']
 
 
 
