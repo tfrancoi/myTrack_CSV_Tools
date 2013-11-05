@@ -8,7 +8,7 @@ from datetime import datetime
 ON_TOTAL = "on_total"
 ON_STEP = "on_step"
 
-
+SEGMENT_KEY = "Segment"
 
 class DataSet:
     """
@@ -202,5 +202,20 @@ class DataSet_cleaner(DataSet):
                     d.pop(c)
                 except KeyError:
                     print 'Error: %s is not present in the data' % c
+                    
+    def merge(self, dataset):
+        """
+            @param dataset: a DataSet object 
+        """
+        #take last segment
+        last_segment = int(self.datas[-1][SEGMENT_KEY])
+        for d in dataset.datas:
+            new_data = {}
+            for c in self.header:
+                if c == SEGMENT_KEY:
+                    new_data[c] = str(int(d.get(c, 1)) + last_segment - 1)
+                else:
+                    new_data[c] = d.get(c, '')
+            self.datas.append(new_data)
         
         

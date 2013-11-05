@@ -24,13 +24,20 @@ if len(sys.argv) < 2:
     print "Please provide a csv filename"
 
 filename = sys.argv[1]
+cleaner = DataSet_cleaner(filename)
+print "Load %s point" % len(cleaner.datas)
 if len(sys.argv) > 2:
-    if sys.argv[2] == 'clean':
-        print "clean CSV File"
-        cleaner = DataSet_cleaner(filename)
-        filename = cleaner.export("CLEAN_")
+    if sys.argv[2] == 'merge':
+        if len(sys.argv) < 4:
+            print "Please provide a second csv filename to merge with the first one"
+        file_to_merge = sys.argv[3]  
+        merge_cleaner = DataSet_cleaner(file_to_merge)
+        cleaner.merge(merge_cleaner)
+        print "Load %s point with merged point" % len(cleaner.datas)
 
 
+
+filename = cleaner.export("CLEAN_")
     
 track_data_set = DataSet(filename)
 track_data_set.filter_list.extend([precision_filter])
@@ -39,7 +46,8 @@ print "dataset len", track_data_set.len()
 
 if LISSAGE:
     for i, data in enumerate(track_data_set.datas): 
-        data["Altitude (m)"] = lissage(track_data_set.datas, i, "Altitude (m)", 3)
+        pass
+        #data["Altitude (m)"] = lissage(track_data_set.datas, i, "Altitude (m)", 1)
         #data['Latitude'] = lissage(track_data_set.datas, i, 'Latitude', 2)
         #data['Longitude'] = lissage(track_data_set.datas, i, 'Longitude', 2)
 
@@ -52,7 +60,7 @@ track_data_set.process()
 #lissage
 for i, data in enumerate(track_data_set.datas): 
     speed = data['speed']
-    data['speed'] = lissage(track_data_set.datas, i, 'speed', 40)
+    data['speed_liss'] = lissage(track_data_set.datas, i, 'speed', 40)
     #print "%s - %s", speed, data['speed']
 
 
